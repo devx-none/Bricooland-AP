@@ -8,7 +8,7 @@ export interface UserInput {
  
   email: string;
   password: string;
-  role : Roles;
+  role: Roles;
   
 }
 
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["customer", "handyman"],
-      required: true,},
+      default: "customer"},
   },
   {
     timestamps: true,

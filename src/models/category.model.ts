@@ -6,7 +6,6 @@ const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 10);
 
 export interface CategoryInput {
   category: string;
-  handyman: Array<mongoose.Types.ObjectId> ;
 }
 
 export interface CategoryDocument extends CategoryInput, mongoose.Document {

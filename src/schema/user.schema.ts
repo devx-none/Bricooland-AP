@@ -45,8 +45,8 @@ export const createUserSchema = object({
       required_error: "Email is required",
     }).email("Not a valid email"),
     password: string({ required_error: "Password is required" }),
-    role: string({ required_error: "Role is required" }),
   }),
+  role:string({required_error: "User is required"}).nullable(),
   
 });
 export type CreateUserInput = Omit<
