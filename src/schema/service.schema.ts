@@ -29,13 +29,17 @@ const payload = {
     category: string({
       required_error: "Category is required",
     }),
-    
+
     title: string({
       required_error: "title is required",
     }),
     description: string({
       required_error: "description is required",
-    })
+    }),
+    handyman: string(),
+    city: string(),
+    statue: string(),
+
     
    
   })
