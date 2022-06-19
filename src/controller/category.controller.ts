@@ -14,6 +14,7 @@ export async function createCategoryHandler(
 ) {
   try {
     const category = await createCategory(req.body);
+    
     return res.send(category);
   } catch (e: any) {
     logger.error(e);

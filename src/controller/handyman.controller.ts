@@ -16,10 +16,20 @@ export async function createHandymanHandler(
   res: Response
 ) {
   try {
-    const Handyman = await createHandyman(req.body);
-    
-    await createUser({ email: Handyman.email, password:Handyman.password, role:Roles.HANDYMAN });
-    return res.send(Handyman);
+    const chekEmail = await findHandyman({ email: req.body.email });
+    if (chekEmail) {
+      return res.status(400).send("adresse e-mail déja existe");
+    }
+    const Handymen: any = await createHandyman(req.body);
+
+    await createUser({
+      handyman: Handymen._id,
+      email: Handymen.email,
+      password: Handymen.password,
+      role: Roles.HANDYMAN,
+      customer: null,
+    });
+    return res.send(Handymen);
   } catch (e: any) {
     logger.error(e);
     return res.status(409).send(e.message);
@@ -46,6 +56,14 @@ export async function getHandymenHandler(req: Request, res: Response) {
 
 
 }
+
+export async function findAndUpdateHandymanHandler(req: Request, res: Response) {
+  const userId = res.locals.user._id;
+  const Handyman = await findAndUpdateHandyman({ _id: userId },{ image:req.body.image },{lean:true});
+  return res.send(Handyman);
+}
+
+
 
 //handymen by category and city
 

@@ -12,9 +12,10 @@ export interface HandymanInput {
   lastName: string;
   phone: string;
   city: string;
-  category: CategoryDocument["_id"];
+  category: CategoryDocument["_id"] | null;
   email: string;
   password: string;
+  [image: string]:any;
  
   
 }
@@ -39,6 +40,7 @@ const handymanSchema = new mongoose.Schema(
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    image: [{ type: String }],
    
   },
   {

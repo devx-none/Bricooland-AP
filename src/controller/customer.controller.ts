@@ -11,14 +11,20 @@ export async function createCustomerHandler(
   res: Response
 ) {
   try {
-    const Customer = await createCustomer(req.body);
-        await createUser({
-          email: Customer.email,
-          password: Customer.password,
-          role: Roles.CUSTOMER,
-        });
+    const chekEmail = await findCustomer({ email: req.body.email });
+    if (chekEmail) {
+      return res.status(400).send("adresse e-mail déja existe");
+    }
+    const Customers:any = await createCustomer(req.body);
+    await createUser({
+      customer: Customers._id,
+      email: Customers.email,
+      password: Customers.password,
+      role: Roles.CUSTOMER,
+      handyman: null
+    });
 
-    return res.send(Customer);
+    return res.send(Customers);
   } catch (e: any) {
     logger.error(e);
     return res.status(409).send(e.message);

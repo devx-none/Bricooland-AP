@@ -7,19 +7,14 @@ import { array,object, number, string, TypeOf } from "zod";
  *     Category:
  *       type: object
  *       required:
- *        - fisrtName
- *        - lastName
- *        - email
- *        - image
+ *        - category
+ *        - handyman
+ *      
  *       properties:
- *         title:
+ *         category:
  *           type: string
- *         description:
- *           type: string
- *         price:
- *           type: number
- *         image:
- *           type: string
+ 
+ *       handyman: array <string>
  */
 
 const payload = {

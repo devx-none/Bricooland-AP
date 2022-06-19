@@ -12,7 +12,7 @@ export async function createService(input: ServiceInput) {
 
   const timer = databaseResponseTimeHistogram.startTimer();
   try {
-    const result = await ServiceModel.create(input);
+    const result:any = await ServiceModel.create(input);
     timer({ ...metricsLabels, success: "true" });
     return result;
   } catch (e) {
@@ -31,7 +31,7 @@ export async function findService(
 
   const timer = databaseResponseTimeHistogram.startTimer();
   try {
-    const result = await ServiceModel.findOne(query, {}, options);
+    const result = await ServiceModel.find(query, {}, options).populate({ path: "category", select: 'category' });
     timer({ ...metricsLabels, success: "true" });
     return result;
   } catch (e) {
@@ -40,6 +40,28 @@ export async function findService(
     throw e;
   }
 }
+
+//perform mission
+export async function getMissions( 
+  query: FilterQuery<ServiceDocument>,
+  options: QueryOptions = { lean: true }
+) {
+  const metricsLabels = {
+    operation: "MyMission",
+  };
+
+  const timer = databaseResponseTimeHistogram.startTimer();
+  try {
+    const result = await ServiceModel.find(query, {}, options).populate({ path: "category", select: 'category' }).populate({ path: "customer", select: 'firstName lastName phone' });
+    timer({ ...metricsLabels, success: "true" });
+    return result;
+  } catch (e) {
+    timer({ ...metricsLabels, success: "false" });
+
+    throw e;
+  }
+}
+
 
 export async function findAndUpdateService(
   query: FilterQuery<ServiceDocument>,

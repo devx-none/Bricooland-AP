@@ -16,11 +16,12 @@ import {
 } from "./schema/handyman.schema";
 import { createHandymanHandler, getHandymenHandler } from "./controller/handyman.controller";
 import { createSessionSchema } from "./schema/session.schema";
-import { createUserSchema } from "./schema/user.schema";
+// import { createUserSchema } from "./schema/user.schema";
 import { createCustomerSchema } from "./schema/customer.schema";
 import { createCustomerHandler } from "./controller/customer.controller";
 import { createServiceSchema } from "./schema/service.schema";
-import { createServiceHandler } from "./controller/service.controller";
+import { createServiceHandler, findAndUpdateServiceHandler, getMissionsHandler, getServiceHandler } from "./controller/service.controller";
+
 import { createCategorySchema } from "./schema/category.schema";
 import { createCategoryHandler, getCategoryHandler } from "./controller/category.controller";
 
@@ -40,24 +41,24 @@ function routes(app: Express) {
 
   /**
    * @openapi
-   * '/api/users':
+   * '/api/handyman':
    *  post:
    *     tags:
-   *     - User
-   *     summary: Register a user
+   *     - Handyman
+   *     summary: Register a Handyman
    *     requestBody:
    *      required: true
    *      content:
    *        application/json:
    *           schema:
-   *              $ref: '#/components/schemas/CreateUserInput'
+   *              $ref: '#/components/schemas/CreateHandymanInput'
    *     responses:
    *      200:
    *        description: Success
    *        content:
    *          application/json:
    *            schema:
-   *              $ref: '#/components/schemas/CreateUserResponse'
+   *              $ref: '#/components/schemas/CreateHandymanResponse'
    *      409:
    *        description: Conflict
    *      400:
@@ -67,10 +68,13 @@ function routes(app: Express) {
   app.get("/api/categories", getCategoryHandler);
 
   app.post("/api/handyman", validateResource(createHandymanSchema), createHandymanHandler);
-  app.get("/api/handymen/:id/:city", getHandymenHandler);
+  app.get("/api/handymen/:category/:city", getHandymenHandler);
 
   app.post("/api/customer", validateResource(createCustomerSchema), createCustomerHandler);
   app.post("/api/service", validateResource(createServiceSchema), createServiceHandler);
+  app.get("/api/service", getServiceHandler);
+  app.patch("/api/service", findAndUpdateServiceHandler);
+  app.get("/api/missions", getMissionsHandler);
   // app.post("/api/users", validateResource(createUserSchema), createUserHandler);
 
   app.post(

@@ -25,19 +25,19 @@ import { object, number, string, TypeOf } from "zod";
 const payload = {
   body: object({
     customer: string({ required_error: "Customer is required" }),
-    handyman: string({ required_error: "Handyman is required" }),
+   
     category: string({
       required_error: "Category is required",
     }),
+    
     title: string({
       required_error: "title is required",
     }),
     description: string({
       required_error: "description is required",
-    }),
-    statue: string({
-      required_error: "statue is required",
-    }),
+    })
+    
+   
   })
 
 };
